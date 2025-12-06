@@ -11,7 +11,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/play.js"
+            // Run the file you have open/active in VS Code
+            "program": "${file}",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

@@ -10,7 +10,8 @@ const user = {
     return "User is " + this.firstName;
   },
   // Arrow method: does NOT have its own this; it uses outer this (here likely global)
-  describeArrow: () => "Arrow this first is " + (this.firstName || "undefined"),
+  describeArrow: () =>
+    "Arrow this firstName is " + (this.firstName || "undefined"),
 };
 console.log("describe():", user.describe());
 console.log("describeArrow():", user.describeArrow());
