@@ -1,4 +1,6 @@
 // Variable declarations (scoping + hoisting)
+// Tip: add "use strict"; at the top of files to catch mistakes (like accidental globals).
+// Strict mode makes JS safer by throwing errors instead of silently creating globals.
 // var -> function-scoped, hoisted (shows up as undefined before its line), can redeclare/reassign
 var myName = "Stoyan";
 

@@ -1,9 +1,3 @@
-// Async function: returns a Promise, lets you write async code that looks sync
-async function fetchFakeData() {
-  return "pretend data";
-}
-fetchFakeData().then((data) => console.log("async function result:", data));
-
 // Generator function: can pause/resume with yield, great when you want values one-at-a-time
 // instead of building a big array (saves memory, can model endless streams).
 function* countUpTo(max) {
