@@ -131,11 +131,42 @@ console.log("spread object copy:", playerSpreadCopy);
 // ----- Destructuring -----
 // Array destructuring pulls out positions.
 const [firstNum, secondNum, ...restNums] = moreNumbers; // restNums gathers the remaining items
-console.log("array destructuring:", firstNum, secondNum, restNums);
+console.log(
+  "array destructuring + rest operator into seperate variables:",
+  firstNum,
+  secondNum,
+  restNums
+);
 
-// Object destructuring pulls out keys (order does not matter).
+// Object destructuring pulls out keys (order does not matter) and creates new const variables from them.
 const { name: playerName, score, level = 1 } = updatedPlayer; // default level=1 if missing
-console.log("object destructuring:", playerName, score, level);
+console.log("object destructuring into variables:", playerName, score, level);
+
+// Destructuring inside function parameters:
+// - We destructure personName right in the parameter list.
+// - That creates a new local variable personName inside the function,
+//   filled from the matching property on the object we pass in.
+// - Good practice: use it when you only need a few properties and want clear names.
+// - You can also rename while destructuring: { personName: displayName } creates a local displayName.
+const person = {
+  personName: "Stoyan",
+  Age: 29,
+  greet() {
+    console.log("Hi, I am " + this.personName);
+  },
+};
+
+const printName = ({ personName }) => {
+  // personName comes from the object argument's personName key
+  console.log("Destructured name:", personName);
+};
+printName(person); // pass the whole object; destructuring picks the needed key
+
+// Example of renaming during destructuring in parameters
+const printNameRenamed = ({ personName: displayName }) => {
+  console.log("Renamed destructured name:", displayName);
+};
+printNameRenamed(person);
 
 // ----- Rest parameters in functions -----
 // Rest parameters gather extra arguments into an array.
