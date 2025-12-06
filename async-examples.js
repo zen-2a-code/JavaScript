@@ -14,6 +14,20 @@ setTimeout(() => {
   console.log("timer is done (async callback after 2s)");
 }, 2000);
 
+// setInterval runs repeatedly until cleared. Always clear it when you are done to avoid leaks.
+let ticks = 0;
+const intervalId = setInterval(() => {
+  ticks++;
+  console.log("interval tick:", ticks);
+  if (ticks >= 3) {
+    clearInterval(intervalId);
+    console.log("interval cleared");
+  }
+}, 300);
+
+// Note on the event loop: Promise callbacks (microtasks) run before timers (macrotasks)
+// once the call stack is clear. That's why Promise.then handlers often fire before setTimeout 0.
+
 // Sync code runs now, line by line (no waiting).
 // These two lines run synchronously one after the other. They print to the console immediately.
 console.log("sync hello"); // runs immediately (synchronous)
@@ -66,6 +80,28 @@ fetchDataWithPromise()
     // Catch any rejection in the chain.
     console.error("promise error:", err);
   });
+
+// ----- Promise utilities: all, race, allSettled -----
+// Promise.all waits for all to fulfill (or rejects fast if any reject).
+const p1 = fetchDataWithPromise(); // resolves after ~1.5s
+const p2 = fetchDataWithPromise(); // another one
+Promise.all([p1, p2])
+  .then((results) => {
+    console.log("Promise.all results:", results);
+  })
+  .catch((err) => {
+    console.error("Promise.all rejected fast:", err);
+  });
+
+// Promise.allSettled waits for all and gives each status (never rejects as a whole).
+Promise.allSettled([fetchDataWithPromise(), fetchDataWithPossibleError(true)]).then((results) => {
+  console.log("Promise.allSettled results:", results);
+});
+
+// Promise.race resolves/rejects as soon as the first promise settles.
+Promise.race([fetchDataWithPromise(), fetchDataWithPossibleError(true)])
+  .then((val) => console.log("Promise.race winner:", val))
+  .catch((err) => console.error("Promise.race error:", err));
 
 // Promise with a rejection example
 function fetchDataWithPossibleError(shouldFail) {
@@ -157,3 +193,15 @@ fetchWithErrorHandling(true); // logs error
   const data = await fetchDataWithPromise();
   console.log("IIFE async result:", data);
 })();
+
+// Real-world network example (commented to avoid actual network calls here):
+// async function loadUser() {
+//   try {
+//     const res = await fetch("https://api.example.com/user");
+//     if (!res.ok) throw new Error("Network response was not ok");
+//     const data = await res.json();
+//     console.log("fetched user:", data);
+//   } catch (err) {
+//     console.error("fetch failed:", err.message);
+//   }
+// }

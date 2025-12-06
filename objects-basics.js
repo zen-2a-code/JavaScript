@@ -25,6 +25,11 @@ const personCopy = { ...person };
 personCopy.name = "Jordan";
 console.log("person original name:", person.name, "| personCopy name:", personCopy.name);
 
+// Deep copy options:
+// - structuredClone(obj) (modern browsers/Node 17+) copies nested data (but not functions)
+// - JSON.parse(JSON.stringify(obj)) also deep copies plain data, but loses functions, Dates, undefined
+// Avoid mutating shared objects; prefer copies when you need immutability.
+
 // Nested object example and access
 const company = {
   name: "Tech Co",

@@ -2,6 +2,7 @@
 
 // ----- Map -----
 // Map stores key-value pairs; keys can be any type (objects, numbers, strings).
+// Map preserves insertion order; use Map when you need non-string keys or predictable order.
 const userMap = new Map();
 const userObjKey = { id: 1 };
 userMap.set("name", "Alex");
@@ -19,6 +20,7 @@ for (const [key, value] of userMap.entries()) {
 
 // ----- Set -----
 // Set stores unique values (no duplicates).
+// Use Set when you need fast membership checks and to remove duplicates.
 const idSet = new Set([1, 2, 2, 3]); // duplicates are ignored
 idSet.add(4);
 console.log("set has 2?", idSet.has(2)); // true
@@ -27,6 +29,8 @@ console.log("set size:", idSet.size);
 for (const id of idSet) {
   console.log("set value:", id);
 }
+// Convert Set to array if you need array methods
+console.log("set to array:", [...idSet]);
 
 // ----- WeakMap / WeakSet (brief mention) -----
 // They hold weak references to objects (garbage-collected automatically).

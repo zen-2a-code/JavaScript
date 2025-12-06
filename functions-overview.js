@@ -53,6 +53,13 @@ console.log("square(6):", square(6));
   console.log("inline callback hit:", num);
 });
 
+// Default parameters: provide fallbacks when args are missing/undefined
+function greet(name = "stranger") {
+  return "Hello, " + name;
+}
+console.log(greet("Pat"));
+console.log(greet()); // uses default
+
 // Immediately Invoked Function Expression (IIFE): run setup code once right away
 // Use case: create a tiny private scope so setup variables don't leak into the rest of the file.
 (function () {
