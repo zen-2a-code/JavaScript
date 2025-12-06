@@ -1,6 +1,8 @@
 // Variable declarations (scoping + hoisting)
 // Tip: add "use strict"; at the top of files to catch mistakes (like accidental globals).
-// Strict mode makes JS safer by throwing errors instead of silently creating globals.
+// Strict mode does NOT enforce types; it just makes JS throw instead of silently doing unsafe things.
+// Example: assigning to an undeclared variable normally creates a global (bug); in strict mode it throws.
+
 // var -> function-scoped, hoisted (shows up as undefined before its line), can redeclare/reassign
 var myName = "Stoyan";
 
@@ -11,7 +13,7 @@ let age = 29;
 const hasHobbies = true;
 
 // No keyword -> creates/uses a global in non-strict mode (accidental globals are bugs, avoid this)
-accidentalGlobalColor = "blue"; // <-- will end up on globalThis
+accidentalGlobalColor = "blue"; // <-- will end up on global This
 
 // Hoisting demo: var is hoisted (shows undefined); let/const throw if accessed too early
 console.log("hoistedVar before assign:", hoistedVar); // undefined, because var is hoisted

@@ -49,15 +49,17 @@ try {
 }
 
 // ----- Custom errors (extend Error) -----
+// Create your own error types for clearer intent (e.g., ValidationError, NotFoundError).
 class ValidationError extends Error {
   constructor(message) {
-    super(message);
-    this.name = "ValidationError";
+    super(message); // call Error constructor so message/stack are set
+    this.name = "ValidationError"; // name helps identify the error type
   }
 }
 
 function requireName(user) {
   if (!user.name) {
+    // Throwing a custom error makes it easy to handle this specific failure
     throw new ValidationError("Name is required");
   }
   return "Name ok: " + user.name;
@@ -66,6 +68,7 @@ function requireName(user) {
 try {
   console.log(requireName({})); // missing name, will throw
 } catch (err) {
+  // instanceof lets you handle specific error types differently
   if (err instanceof ValidationError) {
     console.error("Validation failed:", err.message);
   } else {
