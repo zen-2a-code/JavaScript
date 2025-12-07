@@ -9,6 +9,11 @@ const mixed = ["reading", 69, true, { mood: "happy" }, ["nested"]];
 console.log("numbers:", numbers);
 console.log("mixed:", mixed);
 
+// Create arrays in different ways
+const empty = []; // literal
+const fixedLength = new Array(3); // [empty x3] (use fill/map if you need values)
+console.log("empty array:", empty, "| fixed length:", fixedLength);
+
 // ----- Reference vs value -----
 // Arrays are reference types: assigning/copying the variable copies the reference, not the contents.
 const hobbies = ["reading", "gaming", "coding", "climbing"];
@@ -39,6 +44,15 @@ console.log("after unshift:", hobbies);
 const first = hobbies.shift();
 console.log("shifted item:", first, "| after shift:", hobbies);
 
+// length: number of items (assigning a smaller length truncates, so be careful)
+console.log("hobbies length:", hobbies.length);
+
+// join: turn array into a string with a separator
+console.log("join with commas:", hobbies.join(", "));
+
+// forEach: run a function for each item (does NOT build a new array)
+hobbies.forEach((h, idx) => console.log("forEach sees:", idx, h));
+
 // map: transform each item, returns new array (does NOT mutate)
 const hobbySentences = hobbies.map((hobby) => "One of my hobbies is " + hobby);
 console.log("map result:", hobbySentences);
@@ -50,6 +64,10 @@ console.log("filter result (length > 6):", longNamed);
 // find: returns the first matching item (or undefined)
 const firstWithG = hobbies.find((h) => h.startsWith("g"));
 console.log("find startsWith g:", firstWithG);
+
+// findIndex: returns the index of the first match (or -1)
+const idxWithG = hobbies.findIndex((h) => h.startsWith("g"));
+console.log("findIndex startsWith g:", idxWithG);
 
 // some: true if ANY item matches
 const hasCoding = hobbies.some((h) => h === "coding");
@@ -64,6 +82,11 @@ console.log("includes 'gaming':", hobbies.includes("gaming"));
 
 // indexOf / lastIndexOf: find positions
 console.log("indexOf 'gaming':", hobbies.indexOf("gaming"));
+
+// entries/keys/values: iterators over pairs/indexes/values
+for (const [idx, val] of hobbies.entries()) {
+  console.log("entries gives index and value:", idx, val);
+}
 
 // slice: copy part of array (does NOT mutate)
 
@@ -98,6 +121,29 @@ console.log(
 const nested = [1, [2, [3]]];
 console.log("flat one level:", nested.flat());
 
+// reverse: reverses in place (mutates). Copy first if you need the original.
+const reversed = [...hobbies].reverse();
+console.log("reverse copy:", reversed, "| original still:", hobbies);
+
+// fill: set all/part of an array to a value (mutates)
+const filled = new Array(3).fill("x");
+console.log("filled array:", filled); // ["x","x","x"]
+const filledPartial = [1, 2, 3, 4].fill(0, 1, 3); // fill 0 from index 1 up to (not including) 3
+console.log("filled partial:", filledPartial); // [1,0,0,4]
+
+// flatMap: map then flatten one level (good for splitting/expanding items)
+const phrases = ["a b", "c d"];
+const words = phrases.flatMap((p) => p.split(" "));
+console.log("flatMap to words:", words); // ["a","b","c","d"]
+
+// Array.from / Array.of: create arrays from iterables or a list of args
+const fromString = Array.from("hey"); // ["h","e","y"]
+console.log("Array.from string:", fromString);
+const fromMapped = Array.from([1, 2, 3], (n) => n * 2); // map as you build
+console.log("Array.from mapped:", fromMapped);
+const ofExample = Array.of(1, "two", { three: 3 });
+console.log("Array.of example:", ofExample);
+
 // reduce: fold array into a single value; 0 is the initial accumulator value
 const totalLength = hobbies.reduce((sum, hobby) => sum + hobby.length, 0);
 console.log("reduce total name length:", totalLength);
@@ -106,6 +152,7 @@ console.log("reduce total name length:", totalLength);
 const nums = [10, 2, 30];
 nums.sort((a, b) => a - b); // ascending numeric
 console.log("sorted nums:", nums);
+// To avoid mutating original, copy first: const sortedCopy = [...nums].sort((a,b)=>a-b);
 
 // ----- Spread syntax (...) -----
 
@@ -130,7 +177,7 @@ console.log("spread object copy:", playerSpreadCopy);
 
 // ----- Destructuring -----
 // Array destructuring pulls out positions.
-const [firstNum, secondNum, ...restNums] = moreNumbers; // restNums gathers the remaining items
+const [firstNum, secondNum, ...restNums] = moreNumbers; // restNums gathers the remaining items (reset operator)
 console.log(
   "array destructuring + rest operator into seperate variables:",
   firstNum,
@@ -138,8 +185,8 @@ console.log(
   restNums
 );
 
-// Object destructuring pulls out keys (order does not matter) and creates new const variables from them.
-const { name: playerName, score, level = 1 } = updatedPlayer; // default level=1 if missing
+// Object destructuring pulls values by matching keys and creates new const variables (order doesn't matter).
+const { name: playerName, score, level = 1 } = updatedPlayer; // default level=1 if missing; note renaming name(key)->playerName(variable)
 console.log("object destructuring into variables:", playerName, score, level);
 
 // Destructuring inside function parameters:
