@@ -48,10 +48,20 @@ console.log("multiply(4, 5):", multiply(4, 5));
 const square = (n) => n * n;
 console.log("square(6):", square(6));
 
+// Rest parameters: gather extra args into an array
+function sumAll(...nums) {
+  return nums.reduce((total, n) => total + n, 0);
+}
+console.log("sumAll(1,2,3):", sumAll(1, 2, 3));
+
 // Inline anonymous function passed directly as a callback (not saved to a variable)
 [1, 2, 3].forEach(function (num) {
   console.log("inline callback hit:", num);
 });
+
+// Callback shape differences:
+// - If a callback needs its own this, use a regular function.
+// - If you want to keep the outer this (e.g., inside a method), use an arrow function.
 
 // Default parameters: provide fallbacks when args are missing/undefined
 function greet(name = "stranger") {
@@ -66,3 +76,7 @@ console.log(greet()); // uses default
   const setupMessage = "IIFE ran right away and cleaned up after itself";
   console.log(setupMessage);
 })();
+
+// Hoisting note:
+// - Function declarations are hoisted (you can call them before their definition).
+// - Function expressions/arrow functions are not hoisted the same way; they exist after the assignment line.

@@ -25,3 +25,17 @@ try {
 } catch (err) {
   console.log("beforeLet access failed (TDZ):", err.message);
 }
+
+// ----- Function scoping examples -----
+function scopedExample() {
+  var fnVar = "function var"; // function-scoped
+  let fnLet = "function let"; // block-scoped
+  if (true) {
+    let blockLet = "block let";
+    var hoistedVar = "still function-scoped"; // var ignores block boundaries
+    console.log("inside block:", blockLet, fnVar, fnLet, hoistedVar);
+  }
+  // console.log(blockLet); // would throw (blockLet is block-scoped)
+  console.log("outside block:", fnVar, fnLet, hoistedVar); // hoistedVar is visible here
+}
+scopedExample();

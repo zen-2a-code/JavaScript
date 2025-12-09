@@ -27,6 +27,29 @@ function greetLater(name) {
 const greetAlex = greetLater("Alex");
 greetAlex(); // remembers "Alex"
 
+// Closure capturing a value that is later changed
+let color = "blue";
+const describeColor = () => "Color is " + color;
+console.log(describeColor()); // "blue"
+color = "green"; // closure sees updated outer variable
+console.log(describeColor()); // "green"
+
+// Closure with a one-time initializer (common pattern)
+function once(fn) {
+  let called = false;
+  let result;
+  return function (...args) {
+    if (!called) {
+      result = fn(...args);
+      called = true;
+    }
+    return result;
+  };
+}
+const init = once(() => "initialized");
+console.log(init()); // runs fn
+console.log(init()); // returns cached result
+
 // ----- Prototypes (under the hood of objects/classes) -----
 // Every object has an internal prototype link used for property lookups.
 // You can share methods via prototypes to avoid duplicating functions on every instance.
@@ -46,6 +69,10 @@ console.log("car2 honk:", car2.honk());
 
 // Both car1 and car2 share the same honk function via Car.prototype
 console.log("same honk function?", car1.honk === car2.honk); // true
+console.log(
+  "car1 prototype is Car.prototype?",
+  Object.getPrototypeOf(car1) === Car.prototype
+);
 
 // Object.create lets you set a prototype manually
 const animalProto = {
