@@ -9,6 +9,11 @@
 // title.setAttribute("data-role", "header");
 // const role = title.getAttribute("data-role");
 
+// ----- Reading/writing input values -----
+// const input = document.querySelector("input");
+// input.value = "preset"; // set input value
+// console.log("input current value:", input.value);
+
 // ----- Creating and appending -----
 // const btn = document.createElement("button");
 // btn.textContent = "Click me";
@@ -19,6 +24,10 @@
 //   event.preventDefault(); // stop default action (e.g., form submit)
 //   console.log("Button clicked", event.target);
 // });
+// Remove listener example:
+// function handleClick() { console.log("clicked"); }
+// btn.addEventListener("click", handleClick);
+// btn.removeEventListener("click", handleClick);
 
 // Bubbling vs capturing:
 // - Events bubble up from child to parent by default; use event.stopPropagation() to halt bubbling.
@@ -38,6 +47,12 @@
 // input.addEventListener("input", (e) => {
 //   console.log("current value:", e.target.value);
 // });
+// // Stop a form from submitting and handle it yourself:
+// const form = document.querySelector("form");
+// form.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   console.log("form submitted with value:", input.value);
+// });
 
 // ----- Fetch (browser) basic pattern -----
 // fetch("/api/data")
@@ -56,6 +71,14 @@
 // Element.style for quick changes; classList for adding/removing classes.
 // title.style.color = "red";
 // title.classList.add("highlight");
+// classList.remove("highlight");
+// classList.toggle("highlight");
+
+// ----- DOMContentLoaded -----
+// Run code after the HTML is parsed (before images/styles are fully loaded).
+// document.addEventListener("DOMContentLoaded", () => {
+//   console.log("DOM ready");
+// });
 
 // ----- localStorage / sessionStorage -----
 // Persist simple string data (key/value). Only stores strings; JSON.stringify/parse for objects.
