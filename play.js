@@ -26,7 +26,6 @@
 // 5) Additional JS tools (folder: tools):
 //    - tools/regex-examples.js (patterns, flags, capture groups, cheat sheet)
 //    - tools/loops-examples.js (for/while/do-while, for...of/in, break/continue)
-//    - tools/operators-reference.js (full operator list)
 //    - tools/modules-and-imports.js (CommonJS vs ESM)
 //
 // 6) Browser and UI (folder: browser-ui):

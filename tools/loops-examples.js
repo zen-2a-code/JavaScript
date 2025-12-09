@@ -41,3 +41,27 @@ for (const num of [10, 20, 30, 40]) {
   if (num === 40) break; // stop when reaching 40
   console.log("break/continue example:", num);
 }
+
+// ----- forEach vs map vs for...of quick note -----
+// - forEach: runs a function for each item, no return value collected.
+// - map: builds a new array from return values.
+// - for...of: simple looping when you just need the values.
+numbers.forEach((n) => console.log("forEach sees:", n));
+const doubled = numbers.map((n) => n * 2);
+console.log("map doubled:", doubled);
+
+// ----- Reverse loops and counting down -----
+for (let i = numbers.length - 1; i >= 0; i--) {
+  console.log("reverse for loop index", i, "value", numbers[i]);
+}
+
+// ----- Nested loops (be mindful of performance) -----
+const matrix = [
+  [1, 2],
+  [3, 4],
+];
+for (const row of matrix) {
+  for (const cell of row) {
+    console.log("nested loop cell:", cell);
+  }
+}
