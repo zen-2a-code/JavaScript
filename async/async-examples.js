@@ -14,16 +14,20 @@ setTimeout(() => {
   console.log("timer is done (async callback after 2s)");
 }, 2000);
 
-// setInterval runs repeatedly until cleared. Always clear it when you are done to avoid leaks.
-let ticks = 0;
+// setInterval runs a callback repeatedly on a timer until you stop it.
+// Goal: show it fires multiple times and how to stop it with clearInterval.
+// Why async? setInterval schedules work in the future; code after it keeps running.
+// intervalId is just the timer's ID number; clearInterval(intervalId) tells the runtime to stop scheduling that callback.
+let ticks = 0; // count how many times the interval fired
 const intervalId = setInterval(() => {
-  ticks++;
+  ticks++; // increment the count each time it fires
   console.log("interval tick:", ticks);
   if (ticks >= 3) {
-    clearInterval(intervalId);
+    clearInterval(intervalId); // stop further ticks once we hit 3
     console.log("interval cleared");
   }
-}, 300);
+}, 300); // runs every ~300ms
+// intervalId is a number (timer ID); clearInterval uses it to cancel future runs.
 
 // Note on the event loop: Promise callbacks (microtasks) run before timers (macrotasks)
 // once the call stack is clear. That's why Promise.then handlers often fire before setTimeout 0.
@@ -46,7 +50,7 @@ function fetchDataWithCallback(callback) {
 
 // Use the function: pass what should happen when the async work is finished.
 fetchDataWithCallback((text) => {
-  // We pass an anonymous function as the callback. This function will run later with the result text.
+  // We pass an anonymous arrow function as the callback. This function will run later with the result text.
   console.log("callback result:", text);
 });
 
@@ -67,9 +71,12 @@ function fetchDataWithPromise() {
 fetchDataWithPromise()
   // Call the promise-returning function and chain handlers with .then() and .catch().
   // .then() runs when the promise resolves successfully. Each .then returns a new promise, enabling chaining.
+  // .then receives the resolved value (any type: string/object/etc) from the previous promise.
   .then((text) => {
     console.log("promise then:", text);
     // Return another promise to chain (avoid nesting). This keeps code flat.
+    // Here we call it twice to demonstrate chaining; in real code, chain as many steps as you need
+    // (e.g., fetch -> parse -> transform -> save), each step returning a promise.
     return fetchDataWithPromise();
   })
   .then((text) => {
@@ -94,7 +101,10 @@ Promise.all([p1, p2])
   });
 
 // Promise.allSettled waits for all and gives each status (never rejects as a whole).
-Promise.allSettled([fetchDataWithPromise(), fetchDataWithPossibleError(true)]).then((results) => {
+Promise.allSettled([
+  fetchDataWithPromise(),
+  fetchDataWithPossibleError(true),
+]).then((results) => {
   console.log("Promise.allSettled results:", results);
 });
 
@@ -205,3 +215,13 @@ fetchWithErrorHandling(true); // logs error
 //     console.error("fetch failed:", err.message);
 //   }
 // }
+
+// ----- Sequential vs parallel with async/await -----
+// Awaiting inside a loop can be serial (slower); to run tasks in parallel, start them and await Promise.all.
+async function loadInParallel() {
+  const promiseA = fetchDataWithPromise(); // starts async work
+  const promiseB = fetchDataWithPromise(); // starts another
+  const [a, b] = await Promise.all([promiseA, promiseB]); // wait for both
+  console.log("parallel results:", a, b);
+}
+loadInParallel();
