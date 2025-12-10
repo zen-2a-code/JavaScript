@@ -84,15 +84,19 @@ import { View, Text, Button, StyleSheet } from "react-native"; // For web React 
 function Counter({ start = 0 }) { // props are destructured: expect an object with key "start"
   // useState returns a pair: [currentValue, setterFn]. Calling setterFn triggers a re-render with new state.
   // Think: count is your current number, setCount is the button that updates it.
-  const [count, setCount] = useState(start);
+  const [count, setCount] = useState(start); // Array destructuring: left grabs the value, right grabs the setter React (useState) hands you.
 
   useEffect(() => {
     console.log("count changed:", count);         // side effect runs after render
   }, [count]);                                    // dependency array controls when effect runs:
+  // [count] is just a normal JS array literal with one variable inside. It's not special syntax—same as const nums = [count];
   // The array lists values to watch. If any change since the last render, the effect runs.
   // [] -> run once after first render (nothing to watch).
   // [count] -> run after first render AND whenever count changes.
   // omit deps -> run after every render (rarely needed). Put all used state/props in the array.
+  // Junior version: the array is your watchlist. Put every prop/state you READ inside the effect there.
+  // If you read count inside the effect, add count to the array so React knows to rerun when it changes.
+  // 10-year-old version: the array is a walkie-talkie list. You tell React, "Call me only when these friends change."
 
   return (
     <View style={styles.box}>
